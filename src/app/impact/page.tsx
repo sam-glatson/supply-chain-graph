@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBanner } from "@/components/ErrorBanner";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { PageContainer, PageHeader } from "@/components/PageContainer";
 import { fetchJson } from "@/lib/api-client";
 import type { Alternative, ImpactResult, Supplier } from "@/lib/types";
 
@@ -104,25 +105,23 @@ export default function ImpactPage() {
   }
 
   return (
-    <div className="px-8 py-8">
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Impact Analysis</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Simulate supplier or component outages and trace multi-hop product impact across the graph.
-        </p>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Impact Analysis"
+        description="Simulate supplier or component outages and trace multi-hop product impact across the graph."
+      />
 
       {error ? <div className="mb-6"><ErrorBanner message={error} /></div> : null}
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-wrap gap-3">
+      <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
           <button
             type="button"
             onClick={() => {
               setMode("supplier");
               void analyzeImpact("supplier", selectedSupplierId, selectedComponentId);
             }}
-            className={`rounded-full px-4 py-2 text-sm font-medium ${
+            className={`rounded-full px-3 py-2 text-xs font-medium sm:px-4 sm:text-sm ${
               mode === "supplier"
                 ? "bg-emerald-500 text-slate-950"
                 : "bg-slate-100 text-slate-700"
@@ -136,7 +135,7 @@ export default function ImpactPage() {
               setMode("component");
               void analyzeImpact("component", selectedSupplierId, selectedComponentId);
             }}
-            className={`rounded-full px-4 py-2 text-sm font-medium ${
+            className={`rounded-full px-3 py-2 text-xs font-medium sm:px-4 sm:text-sm ${
               mode === "component"
                 ? "bg-emerald-500 text-slate-950"
                 : "bg-slate-100 text-slate-700"
@@ -146,7 +145,7 @@ export default function ImpactPage() {
           </button>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-end gap-3">
+        <div className="mt-4 grid gap-3 sm:flex sm:flex-wrap sm:items-end">
           {mode === "supplier" ? (
             <select
               value={selectedSupplierId}
@@ -155,7 +154,7 @@ export default function ImpactPage() {
                 setSelectedSupplierId(value);
                 void analyzeImpact("supplier", value, selectedComponentId);
               }}
-              className="min-w-[280px] rounded-xl border border-slate-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm sm:min-w-[280px] sm:w-auto"
               disabled={loading}
             >
               {suppliers.map((supplier) => (
@@ -172,7 +171,7 @@ export default function ImpactPage() {
                 setSelectedComponentId(value);
                 void analyzeImpact("component", selectedSupplierId, value);
               }}
-              className="min-w-[280px] rounded-xl border border-slate-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm sm:min-w-[280px] sm:w-auto"
               disabled={loading}
             >
               {components.map((component) => (
@@ -187,15 +186,15 @@ export default function ImpactPage() {
             type="button"
             onClick={runAnalysis}
             disabled={analysisLoading || loading}
-            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+            className="w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60 sm:w-auto"
           >
             {analysisLoading ? "Analyzing..." : "Run analysis"}
           </button>
         </div>
       </section>
 
-      <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="mb-4 flex items-center justify-between">
+      <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-6 sm:p-6">
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h3 className="text-lg font-semibold">Affected Products</h3>
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
             {results.length} impacted
@@ -232,7 +231,7 @@ export default function ImpactPage() {
       </section>
 
       {mode === "component" ? (
-        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-6 sm:p-6">
           <h3 className="text-lg font-semibold">Alternative Supply Paths</h3>
           <p className="mt-1 text-sm text-slate-500">
             Substitute components and their suppliers, ranked by reliability.
@@ -258,6 +257,6 @@ export default function ImpactPage() {
           </div>
         </section>
       ) : null}
-    </div>
+    </PageContainer>
   );
 }

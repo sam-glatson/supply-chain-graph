@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBanner } from "@/components/ErrorBanner";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { PageContainer, PageHeader } from "@/components/PageContainer";
 import { fetchJson } from "@/lib/api-client";
 import type { Product, ProductBomItem } from "@/lib/types";
 
@@ -72,25 +73,23 @@ export default function ProductsPage() {
   const selectedProduct = products.find((product) => product.id === selectedId);
 
   return (
-    <div className="px-8 py-8">
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Products</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Explore finished goods and drill into bill-of-materials with supplier paths.
-        </p>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Products"
+        description="Explore finished goods and drill into bill-of-materials with supplier paths."
+      />
 
       {error ? <div className="mb-6"><ErrorBanner message={error} /></div> : null}
 
-      <div className="grid gap-6 xl:grid-cols-[320px_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="grid gap-4 sm:gap-6 xl:grid-cols-[320px_1fr]">
+        <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
           <input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search by name, SKU, or line..."
             className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none ring-emerald-500 focus:ring-2"
           />
-          <div className="mt-4 max-h-[620px] space-y-2 overflow-auto">
+          <div className="mt-4 max-h-64 space-y-2 overflow-auto sm:max-h-[420px] xl:max-h-[620px]">
             {loading ? (
               <LoadingSkeleton rows={5} />
             ) : filtered.length === 0 ? (
@@ -118,7 +117,7 @@ export default function ProductsPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
           {!selectedProduct ? (
             <EmptyState
               title="Select a product"
@@ -182,6 +181,6 @@ export default function ProductsPage() {
           )}
         </section>
       </div>
-    </div>
+    </PageContainer>
   );
 }

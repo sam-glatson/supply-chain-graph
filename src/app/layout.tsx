@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   description: "Supply chain traceability and risk analysis powered by CognoDB",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} h-full`}>

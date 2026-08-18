@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorBanner } from "@/components/ErrorBanner";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { PageContainer, PageHeader } from "@/components/PageContainer";
 import { fetchJson } from "@/lib/api-client";
 import type { Supplier, SupplierDetail } from "@/lib/types";
 
@@ -71,21 +72,19 @@ export default function SuppliersPage() {
   const filteredCount = useMemo(() => suppliers.length, [suppliers]);
 
   return (
-    <div className="px-8 py-8">
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Suppliers</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Filter vendors by region and tier, then inspect downstream product exposure.
-        </p>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Suppliers"
+        description="Filter vendors by region and tier, then inspect downstream product exposure."
+      />
 
       {error ? <div className="mb-6"><ErrorBanner message={error} /></div> : null}
 
-      <div className="mb-4 flex flex-wrap gap-3">
+      <div className="mb-4 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
         <select
           value={region}
           onChange={(event) => setRegion(event.target.value)}
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm"
+          className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm sm:w-auto"
         >
           {regions.map((option) => (
             <option key={option || "all"} value={option}>
@@ -96,7 +95,7 @@ export default function SuppliersPage() {
         <select
           value={tier}
           onChange={(event) => setTier(event.target.value)}
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm"
+          className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm sm:w-auto"
         >
           {tiers.map((option) => (
             <option key={option || "all"} value={option}>
@@ -107,9 +106,9 @@ export default function SuppliersPage() {
         <span className="self-center text-sm text-slate-500">{filteredCount} suppliers</span>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[320px_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="max-h-[620px] space-y-2 overflow-auto">
+      <div className="grid gap-4 sm:gap-6 xl:grid-cols-[320px_1fr]">
+        <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+          <div className="max-h-64 space-y-2 overflow-auto sm:max-h-[420px] xl:max-h-[620px]">
             {loading ? (
               <LoadingSkeleton rows={5} />
             ) : suppliers.length === 0 ? (
@@ -139,7 +138,7 @@ export default function SuppliersPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
           {detailLoading ? (
             <LoadingSkeleton rows={6} />
           ) : !detail ? (
@@ -198,6 +197,6 @@ export default function SuppliersPage() {
           )}
         </section>
       </div>
-    </div>
+    </PageContainer>
   );
 }
