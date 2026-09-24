@@ -89,7 +89,7 @@ export default function ProductsPage() {
             placeholder="Search by name, SKU, or line..."
             className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none ring-emerald-500 focus:ring-2"
           />
-          <div className="mt-4 max-h-64 space-y-2 overflow-auto sm:max-h-[420px] xl:max-h-[620px]">
+          <div className="mt-4 max-h-64 space-y-2 overflow-auto sm:max-h-[420px] xl:max-h-[620px] p-1">
             {loading ? (
               <LoadingSkeleton rows={5} />
             ) : filtered.length === 0 ? (
