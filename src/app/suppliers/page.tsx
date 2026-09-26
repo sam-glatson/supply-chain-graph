@@ -108,7 +108,7 @@ export default function SuppliersPage() {
 
       <div className="grid gap-4 sm:gap-6 xl:grid-cols-[320px_1fr]">
         <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
-          <div className="max-h-64 space-y-2 overflow-auto sm:max-h-[420px] xl:max-h-[620px]">
+          <div className="max-h-64 space-y-2 overflow-auto sm:max-h-[420px] xl:max-h-[620px] p-1">
             {loading ? (
               <LoadingSkeleton rows={5} />
             ) : suppliers.length === 0 ? (
